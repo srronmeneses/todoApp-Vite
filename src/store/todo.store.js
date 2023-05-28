@@ -49,6 +49,7 @@ const addTodo = (description) => {
  * @param {String} todoId identidicador del Todo
  */
 const toggleTodo = (todoId) => {
+    if(!todoId) throw new Error(`todoId is required`)
     state.todos = state.todos.map(todo => {
         if (todo.id === todoId) {
             todo.done = !todo.done;

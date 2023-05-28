@@ -4,7 +4,8 @@ import todoStore from "../store/todo.store";
 import { renderTodo } from "./use-cases";
 
 const ElementIDs = {
-    Todolist: `.todo-list`,
+    todolist: `.todo-list`,
+    newTodo: `.new-todo`,
 }
 /**
  * 
@@ -14,7 +15,7 @@ export const App = (elemmentId) => {
 
     const displayTodo = () => {
         const todos = todoStore.getTodos(todoStore.getCurrentFilter());
-        renderTodo(ElementIDs.Todolist, todos);
+        renderTodo(ElementIDs.todolist, todos);
     }
 
     (() => {
@@ -23,4 +24,22 @@ export const App = (elemmentId) => {
         document.querySelector(elemmentId).append(app);
         displayTodo();
     })();
+
+    const newTodo = document.querySelector(ElementIDs.newTodo);
+    const delete_toggle = document.querySelector(ElementIDs.todolist);
+
+    newTodo.addEventListener(`keyup`, (e) => {
+        if(e.keyCode !== 13) return;
+        if(e.target.value.trim().length === 0) return;
+        todoStore.addTodo(e.target.value);
+        displayTodo();
+        e.target.value = ``;
+    });
+    delete_toggle.addEventListener(`click`, (e) => {
+        const todoId = e.target.closest`[data-id]`.getAttribute(`data-id`);
+        console.log(e.target.className);
+        if(e.target.className === `toggle`) todoStore.toggleTodo(todoId);
+        if(e.target.className === `destroy`) todoStore.deleteTodo(todoId);
+        displayTodo();
+    })
 }
