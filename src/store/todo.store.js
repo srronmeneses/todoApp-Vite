@@ -5,7 +5,6 @@ const Filters = {
     Completed: `Completed`,
     Pending: `Pending`
 }
-
 const state = {
     todos: [
         new Todo(`Piedra del alma`),
@@ -14,15 +13,15 @@ const state = {
     ],
     filter: Filters.All,
 }
-
 const initStrore = () => {
-    console.log(state);
+    loadStore();
     console.log(`InitStore 👨🏻‍💻`);
 }
-const loadStore = () => {
-    throw new Error(`Aun no implementado..`)
-}
-
+/**
+ * 
+ * @param {Filters} filter un objeto de filtros
+ * @returns {Array} Todos
+ */
 const getTodos = (filter = Filters.All) => {
     switch (filter) {
         case Filters.All:
@@ -43,6 +42,7 @@ const getTodos = (filter = Filters.All) => {
 const addTodo = (description) => {
     if(!description) throw new Error (`description is required!`);
     state.todos.push(new Todo(description));
+    saveLocalStorage();
 }
 /**
  * 
@@ -56,6 +56,7 @@ const toggleTodo = (todoId) => {
         }
         return todo;
     });
+    saveLocalStorage();
 }
 /**
  * 
@@ -64,10 +65,12 @@ const toggleTodo = (todoId) => {
 const deleteTodo = (todoId) => {
     if (!todoId) throw new Error(`todoId is required`);
     state.todos = state.todos.filter(todo => todo.id !== todoId);
+    saveLocalStorage();
 }
 
 const deleteCompleted = () => {
     state.todos = state.todos.filter(todo => !todo.done);
+    saveLocalStorage();
 }
 /**
  * 
@@ -75,11 +78,20 @@ const deleteCompleted = () => {
  */
 const setFilter = (newFilter = Filters.All) => {
     state.filter = newFilter;
+    saveLocalStorage();
 }
 const getCurrentFilter =  () => {
     return state.filter;
 }
-
+const saveLocalStorage = () => {
+    localStorage.setItem(`state`, JSON.stringify(state));
+}
+const loadStore = () => {
+    if(!localStorage.getItem(`state`)) return;
+    const {todos = [], filter = Filters.All} = JSON.parse(localStorage.getItem(`state`));
+    state.todos = todos;
+    state.filter = filter;
+}
 
 export default {
     addTodo,
@@ -88,7 +100,6 @@ export default {
     getCurrentFilter,
     getTodos,
     initStrore,
-    loadStore,
     setFilter,
     toggleTodo,
 }

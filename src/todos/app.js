@@ -4,6 +4,7 @@ import todoStore from "../store/todo.store";
 import { renderTodo } from "./use-cases";
 
 const ElementIDs = {
+    ClearCompleted: `.clear-completed`,
     todolist: `.todo-list`,
     newTodo: `.new-todo`,
 }
@@ -27,6 +28,7 @@ export const App = (elemmentId) => {
 
     const newTodo = document.querySelector(ElementIDs.newTodo);
     const delete_toggle = document.querySelector(ElementIDs.todolist);
+    const clearCompleted = document.querySelector(ElementIDs.ClearCompleted);
 
     newTodo.addEventListener(`keyup`, (e) => {
         if(e.keyCode !== 13) return;
@@ -37,9 +39,12 @@ export const App = (elemmentId) => {
     });
     delete_toggle.addEventListener(`click`, (e) => {
         const todoId = e.target.closest`[data-id]`.getAttribute(`data-id`);
-        console.log(e.target.className);
         if(e.target.className === `toggle`) todoStore.toggleTodo(todoId);
         if(e.target.className === `destroy`) todoStore.deleteTodo(todoId);
+        displayTodo();
+    });
+    clearCompleted.addEventListener(`click`, () => {
+        todoStore.deleteCompleted();
         displayTodo();
     })
 }
