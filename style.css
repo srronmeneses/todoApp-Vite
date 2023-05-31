@@ -317,7 +317,7 @@ body {
 }
 
 .filters li a.selected {
-	border-color: rgba(175, 47, 47, 0.2);
+	border-color: #b84045;
 }
 
 .clear-completed,

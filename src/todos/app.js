@@ -1,9 +1,10 @@
 /*hack: ?raw forma de importar un HTML en crudo*/
 import html from "./app.html?raw"; 
-import todoStore from "../store/todo.store";
+import todoStore, { Filters } from "../store/todo.store";
 import { renderTodo } from "./use-cases";
 
 const ElementIDs = {
+    FilterLi: `.filtro`,
     ClearCompleted: `.clear-completed`,
     todolist: `.todo-list`,
     newTodo: `.new-todo`,
@@ -29,6 +30,7 @@ export const App = (elemmentId) => {
     const newTodo = document.querySelector(ElementIDs.newTodo);
     const delete_toggle = document.querySelector(ElementIDs.todolist);
     const clearCompleted = document.querySelector(ElementIDs.ClearCompleted);
+    const filterLi = document.querySelectorAll(ElementIDs.FilterLi);
 
     newTodo.addEventListener(`keyup`, (e) => {
         if(e.keyCode !== 13) return;
@@ -46,5 +48,26 @@ export const App = (elemmentId) => {
     clearCompleted.addEventListener(`click`, () => {
         todoStore.deleteCompleted();
         displayTodo();
-    })
+    });
+    filterLi.forEach(element => {
+        element.addEventListener(`click`, (e) => {
+            filterLi.forEach(ele => ele.classList.remove(`selected`));
+            e.target.classList.add(`selected`);
+            switch (e.target.text) {
+                case `Todos`:
+                    todoStore.setFilter(Filters.All);
+                    break;
+                case `Completados`:
+                    todoStore.setFilter(Filters.Completed);
+                    break;
+                case `Pendientes`:
+                    todoStore.setFilter(Filters.Pending);
+                    break;
+                default:
+                    throw new Error(`Option not found`);
+            }
+            displayTodo();
+        })
+    })   
+
 }
