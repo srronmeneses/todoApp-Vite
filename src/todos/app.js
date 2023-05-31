@@ -1,23 +1,28 @@
 /*hack: ?raw forma de importar un HTML en crudo*/
 import html from "./app.html?raw"; 
 import todoStore, { Filters } from "../store/todo.store";
-import { renderTodo } from "./use-cases";
+import { renderPending, renderTodo } from "./use-cases";
 
 const ElementIDs = {
     FilterLi: `.filtro`,
     ClearCompleted: `.clear-completed`,
     todolist: `.todo-list`,
     newTodo: `.new-todo`,
+    PendingCount: `#pending-count`,
 }
 /**
  * 
  * @param {String} elemmentId lugar en donde se renderiza la App
  */
 export const App = (elemmentId) => {
-
+    
+    const updatePendign = () => {
+        renderPending(ElementIDs.PendingCount);        
+    }
     const displayTodo = () => {
         const todos = todoStore.getTodos(todoStore.getCurrentFilter());
         renderTodo(ElementIDs.todolist, todos);
+        updatePendign();
     }
 
     (() => {
@@ -65,9 +70,9 @@ export const App = (elemmentId) => {
                     break;
                 default:
                     throw new Error(`Option not found`);
-            }
+            };
             displayTodo();
-        })
-    })   
-
+        });
+    });   
+    
 }
