@@ -7,9 +7,11 @@ export const Filters = {
 }
 const state = {
     todos: [
-        new Todo(`Piedra del alma`),
-        new Todo(`Piedra del infinito`),
-        new Todo(`Piedra del tiempo`),
+        new Todo(`Curso de JavaScript`),
+        new Todo(`curos de TypeScript`),
+        new Todo(`Curso de React`),
+        new Todo(`Curso de Next`),
+        new Todo(`Curso de Flutter`),
     ],
     filter: Filters.All,
 }
