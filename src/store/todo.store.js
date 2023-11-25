@@ -8,14 +8,14 @@ export const Filters = {
 const state = {
     todos: [
         new Todo(`Curso de JavaScript`),
-        new Todo(`curos de TypeScript`),
+        new Todo(`curso de TypeScript`),
         new Todo(`Curso de React`),
         new Todo(`Curso de Next`),
         new Todo(`Curso de Flutter`),
     ],
     filter: Filters.All,
 }
-const initStrore = () => {
+const initStore = () => {
     loadStore();
     console.log(`InitStore 👨🏻‍💻`);
 }
@@ -48,7 +48,7 @@ const addTodo = (description) => {
 }
 /**
  * 
- * @param {String} todoId identidicador del Todo
+ * @param {String} todoId identificador del Todo
  */
 const toggleTodo = (todoId) => {
     if(!todoId) throw new Error(`todoId is required`)
@@ -101,7 +101,7 @@ export default {
     deleteTodo,
     getCurrentFilter,
     getTodos,
-    initStrore,
+    initStore: initStore,
     setFilter,
     toggleTodo,
 }

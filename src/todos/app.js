@@ -6,34 +6,36 @@ import { renderPending, renderTodo } from "./use-cases";
 const ElementIDs = {
     FilterLi: `.filtro`,
     ClearCompleted: `.clear-completed`,
-    todolist: `.todo-list`,
-    newTodo: `.new-todo`,
+    Todolist: `.todo-list`,
+    NewTodo: `.new-todo`,
     PendingCount: `#pending-count`,
 }
+/*bug: comment*/
 /**
  * 
- * @param {String} elemmentId lugar en donde se renderiza la App
+ * @param {String} elementId lugar en donde renderiza la App
  */
-export const App = (elemmentId) => {
+
+export const App = (elementId) => {
     
-    const updatePendign = () => {
+    const updatePending = () => {
         renderPending(ElementIDs.PendingCount);        
     }
     const displayTodo = () => {
         const todos = todoStore.getTodos(todoStore.getCurrentFilter());
-        renderTodo(ElementIDs.todolist, todos);
-        updatePendign();
+        renderTodo(ElementIDs.Todolist, todos);
+        updatePending();
     }
 
     (() => {
         const app = document.createElement(`div`);
         app.innerHTML = html;
-        document.querySelector(elemmentId).append(app);
+        document.querySelector(elementId).append(app);
         displayTodo();
     })();
 
-    const newTodo = document.querySelector(ElementIDs.newTodo);
-    const delete_toggle = document.querySelector(ElementIDs.todolist);
+    const newTodo = document.querySelector(ElementIDs.NewTodo);
+    const delete_toggle = document.querySelector(ElementIDs.Todolist);
     const clearCompleted = document.querySelector(ElementIDs.ClearCompleted);
     const filterLi = document.querySelectorAll(ElementIDs.FilterLi);
 
